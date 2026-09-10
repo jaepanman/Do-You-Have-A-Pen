@@ -1,0 +1,7 @@
+{
+  "name": "EFL School Supplies Guess Who",
+  "description": "An elementary school EFL elimination game for English learners in Japan to practice 'Do you have a...?' and school supplies.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
