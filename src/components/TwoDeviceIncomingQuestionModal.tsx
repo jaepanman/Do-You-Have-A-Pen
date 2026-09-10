@@ -66,11 +66,11 @@ export const TwoDeviceIncomingQuestionModal: React.FC<TwoDeviceIncomingQuestionM
                 <MessageCircleQuestion className="w-5 h-5 text-indigo-700" />
               </div>
               <div>
-                <div className="text-xs font-bold text-indigo-700 uppercase tracking-wider">
+                <div className="text-xs font-black text-indigo-700 uppercase tracking-wider">
                   {question.fromName} is Asking You!
                 </div>
-                <div className="text-[11px] text-slate-500 font-medium">
-                  {question.fromName} からのしつもん
+                <div className="text-xs text-slate-700 font-bold">
+                  {question.fromName} さんから質問が届いたよ！
                 </div>
               </div>
             </div>
@@ -82,7 +82,7 @@ export const TwoDeviceIncomingQuestionModal: React.FC<TwoDeviceIncomingQuestionM
               title="Peek at board"
             >
               <Eye className="w-3.5 h-3.5" />
-              <span>Peek Board</span>
+              <span>盤面を見る</span>
             </button>
           </div>
 
@@ -98,18 +98,18 @@ export const TwoDeviceIncomingQuestionModal: React.FC<TwoDeviceIncomingQuestionM
               "{question.questionText}"
             </div>
             {showJapanese && question.japaneseText && (
-              <div className="text-xs font-semibold text-slate-600 mt-1">
-                {question.japaneseText}
+              <div className="text-xs font-bold text-slate-600 mt-1">
+                （{question.japaneseText}）
               </div>
             )}
 
             <button
               type="button"
               onClick={() => handleSpeak(question.questionText)}
-              className="mt-2.5 inline-flex items-center gap-2 px-4 py-1.5 rounded-xl bg-indigo-200 hover:bg-indigo-300 text-indigo-950 font-bold text-xs transition-colors"
+              className="mt-2.5 inline-flex items-center gap-2 px-4 py-1.5 rounded-xl bg-indigo-200 hover:bg-indigo-300 text-indigo-950 font-bold text-xs transition-colors cursor-pointer"
             >
               <Volume2 className="w-4 h-4" />
-              <span>Listen to English</span>
+              <span>🔊 英語の音声を聞く (Listen)</span>
             </button>
           </div>
 
@@ -118,11 +118,14 @@ export const TwoDeviceIncomingQuestionModal: React.FC<TwoDeviceIncomingQuestionM
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-1.5 text-xs font-extrabold text-amber-900 uppercase tracking-wide">
                 <ShieldCheck className="w-4 h-4 text-amber-600" />
-                <span>Your Secret Card & Supplies (あなたのカードと持ち物):</span>
+                <span>あなたのカードと持ち物（4つ）:</span>
               </div>
               <div className="flex items-center gap-1 text-xs font-extrabold text-slate-800 bg-white px-2 py-0.5 rounded-lg border border-amber-200">
                 <span className="text-base">{playerSecretAnimal.emoji}</span>
                 <span>{playerSecretAnimal.name}</span>
+                {showJapanese && (
+                  <span className="text-slate-500 font-normal">（{playerSecretAnimal.japaneseName}）</span>
+                )}
               </div>
             </div>
 
@@ -145,7 +148,7 @@ export const TwoDeviceIncomingQuestionModal: React.FC<TwoDeviceIncomingQuestionM
                     <div className="flex items-center gap-1.5 min-w-0">
                       <SupplyIcon id={supId} size="sm" />
                       <div className="truncate">
-                        <div className="truncate capitalize text-xs">{s.name}</div>
+                        <div className="truncate capitalize text-xs font-bold">{s.name}</div>
                         {showJapanese && (
                           <div className="text-[10px] text-slate-500 font-normal leading-tight">
                             {s.japaneseName}
@@ -156,7 +159,7 @@ export const TwoDeviceIncomingQuestionModal: React.FC<TwoDeviceIncomingQuestionM
 
                     {isTargetMatch && (
                       <span className="text-[10px] bg-emerald-600 text-white font-black px-1.5 py-0.5 rounded-md shrink-0 ml-1">
-                        MATCH!
+                        ★ これ！
                       </span>
                     )}
                   </div>
@@ -166,29 +169,31 @@ export const TwoDeviceIncomingQuestionModal: React.FC<TwoDeviceIncomingQuestionM
 
             {/* Status summary banner */}
             <div
-              className={`p-2 rounded-xl text-xs font-bold text-center ${
+              className={`p-2.5 rounded-xl text-xs font-black text-center ${
                 playerHasIt
-                  ? 'bg-emerald-100 text-emerald-950 border border-emerald-300'
-                  : 'bg-rose-100 text-rose-950 border border-rose-300'
+                  ? 'bg-emerald-100 text-emerald-950 border-2 border-emerald-400'
+                  : 'bg-rose-100 text-rose-950 border-2 border-rose-400'
               }`}
             >
               {playerHasIt ? (
                 <span>
-                  ✅ You <strong>HAVE</strong> this item! Click <strong>"Yes, I do!"</strong>
-                  {showJapanese && '（持っています！下の「Yes, I do!」をクリック）'}
+                  ⭕️ あなたはこのアイテムを<strong>【持っています】</strong>！
+                  <br />
+                  下の緑のボタン<strong>「Yes, I do!」</strong>を押して答えてね！
                 </span>
               ) : (
                 <span>
-                  ❌ You <strong>DO NOT</strong> have this item! Click <strong>"No, I don't!"</strong>
-                  {showJapanese && '（持っていません！下の「No, I don\'t!」をクリック）'}
+                  ❌ あなたはこのアイテムを<strong>【持っていません】</strong>！
+                  <br />
+                  下の赤のボタン<strong>「No, I don't!」</strong>を押して答えてね！
                 </span>
               )}
             </div>
           </div>
 
           <div className="text-center mb-2">
-            <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-              Respond to {question.fromName} (Only the truthful button is enabled):
+            <p className="text-xs font-black text-slate-600">
+              👇 正しいほうのボタンを押して返事をしよう（合っている方だけ押せます）:
             </p>
           </div>
 
@@ -216,17 +221,17 @@ export const TwoDeviceIncomingQuestionModal: React.FC<TwoDeviceIncomingQuestionM
               )}
               <span className="text-base">Yes, I do!</span>
               {showJapanese && (
-                <span className="text-[11px] font-normal text-emerald-800">
+                <span className="text-xs font-bold text-emerald-800">
                   はい、もっています
                 </span>
               )}
               {playerHasIt ? (
-                <span className="text-[10px] text-emerald-700 font-bold bg-emerald-200/80 px-2 py-0.5 rounded-full mt-1">
-                  👉 Click this! (正解)
+                <span className="text-[11px] text-emerald-800 font-black bg-emerald-200/90 px-2 py-0.5 rounded-full mt-1">
+                  👉 これを押してね！
                 </span>
               ) : (
                 <span className="text-[10px] text-slate-400 font-normal mt-1">
-                  Locked (Not in bag)
+                  持っていないため押せません
                 </span>
               )}
             </button>
@@ -253,17 +258,17 @@ export const TwoDeviceIncomingQuestionModal: React.FC<TwoDeviceIncomingQuestionM
               )}
               <span className="text-base">No, I don't!</span>
               {showJapanese && (
-                <span className="text-[11px] font-normal text-rose-800">
+                <span className="text-xs font-bold text-rose-800">
                   いいえ、もっていません
                 </span>
               )}
               {!playerHasIt ? (
-                <span className="text-[10px] text-rose-700 font-bold bg-rose-200/80 px-2 py-0.5 rounded-full mt-1">
-                  👉 Click this! (正解)
+                <span className="text-[11px] text-rose-800 font-black bg-rose-200/90 px-2 py-0.5 rounded-full mt-1">
+                  👉 これを押してね！
                 </span>
               ) : (
                 <span className="text-[10px] text-slate-400 font-normal mt-1">
-                  Locked (In your bag)
+                  持っているため押せません
                 </span>
               )}
             </button>
@@ -288,11 +293,11 @@ export const TwoDeviceIncomingQuestionModal: React.FC<TwoDeviceIncomingQuestionM
                 <MessageCircleQuestion className="w-5 h-5 text-indigo-700" />
               </div>
               <div>
-                <div className="text-xs font-bold text-indigo-700 uppercase tracking-wider">
+                <div className="text-xs font-black text-indigo-700 uppercase tracking-wider">
                   {question.fromName} is Guessing Your Identity!
                 </div>
-                <div className="text-[11px] text-slate-500 font-medium">
-                  {question.fromName} があなたの正体を推理中！
+                <div className="text-xs text-slate-700 font-bold">
+                  {question.fromName} さんがあなたの動物を推理しています！
                 </div>
               </div>
             </div>
@@ -303,7 +308,7 @@ export const TwoDeviceIncomingQuestionModal: React.FC<TwoDeviceIncomingQuestionM
               className="flex items-center gap-1 px-2.5 py-1 rounded-xl text-xs font-bold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 transition-colors"
             >
               <Eye className="w-3.5 h-3.5" />
-              <span>Peek Board</span>
+              <span>盤面を見る</span>
             </button>
           </div>
 
@@ -316,18 +321,18 @@ export const TwoDeviceIncomingQuestionModal: React.FC<TwoDeviceIncomingQuestionM
               "{question.questionText}"
             </div>
             {showJapanese && question.japaneseText && (
-              <div className="text-xs font-semibold text-slate-600 mt-1">
-                {question.japaneseText}
+              <div className="text-xs font-bold text-slate-600 mt-1">
+                （{question.japaneseText}）
               </div>
             )}
 
             <button
               type="button"
               onClick={() => handleSpeak(question.questionText)}
-              className="mt-2.5 inline-flex items-center gap-2 px-4 py-1.5 rounded-xl bg-indigo-200 hover:bg-indigo-300 text-indigo-950 font-bold text-xs transition-colors"
+              className="mt-2.5 inline-flex items-center gap-2 px-4 py-1.5 rounded-xl bg-indigo-200 hover:bg-indigo-300 text-indigo-950 font-bold text-xs transition-colors cursor-pointer"
             >
               <Volume2 className="w-4 h-4" />
-              <span>Listen to English</span>
+              <span>🔊 英語の音声を聞く (Listen)</span>
             </button>
           </div>
 
@@ -335,7 +340,7 @@ export const TwoDeviceIncomingQuestionModal: React.FC<TwoDeviceIncomingQuestionM
           <div className="bg-slate-50 rounded-2xl p-3.5 border-2 border-slate-200 mb-4">
             <div className="flex items-center gap-1.5 text-xs font-extrabold text-slate-700 uppercase tracking-wide mb-2">
               <ShieldCheck className="w-4 h-4 text-emerald-600" />
-              <span>Your Secret Card (あなたのカード):</span>
+              <span>あなたのカード（秘密の動物）:</span>
             </div>
 
             <div className="flex items-center gap-3 bg-white p-2.5 rounded-xl border border-slate-200 shadow-2xs">
@@ -345,7 +350,7 @@ export const TwoDeviceIncomingQuestionModal: React.FC<TwoDeviceIncomingQuestionM
                   {playerSecretAnimal.name}
                 </div>
                 {showJapanese && (
-                  <div className="text-xs font-semibold text-slate-500">
+                  <div className="text-xs font-bold text-slate-500">
                     {playerSecretAnimal.japaneseName}
                   </div>
                 )}
@@ -354,29 +359,31 @@ export const TwoDeviceIncomingQuestionModal: React.FC<TwoDeviceIncomingQuestionM
 
             {/* Hint banner */}
             <div
-              className={`mt-2.5 p-2 rounded-xl text-xs font-bold text-center ${
+              className={`mt-2.5 p-2.5 rounded-xl text-xs font-black text-center ${
                 isActuallyCorrect
-                  ? 'bg-emerald-100 text-emerald-950 border border-emerald-300'
-                  : 'bg-rose-100 text-rose-950 border border-rose-300'
+                  ? 'bg-emerald-100 text-emerald-950 border-2 border-emerald-400'
+                  : 'bg-rose-100 text-rose-950 border-2 border-rose-400'
               }`}
             >
               {isActuallyCorrect ? (
                 <span>
-                  🎉 {question.fromName} guessed correctly! Click <strong>"Yes, I am!"</strong>
-                  {showJapanese && '（正解です！「Yes, I am!」をクリック）'}
+                  🎉 あたり！相手の推理は大正解です！
+                  <br />
+                  下の緑のボタン<strong>「Yes, I am!」</strong>を押して答えてね！
                 </span>
               ) : (
                 <span>
-                  ❌ That is NOT you! Click <strong>"No, I'm not!"</strong>
-                  {showJapanese && '（ちがいます！「No, I\'m not!」をクリック）'}
+                  ❌ はずれ！あなたはその動物ではありません！
+                  <br />
+                  下の赤のボタン<strong>「No, I'm not!」</strong>を押して答えてね！
                 </span>
               )}
             </div>
           </div>
 
           <div className="text-center mb-2">
-            <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-              Answer {question.fromName} (Only the correct button is enabled):
+            <p className="text-xs font-black text-slate-600">
+              👇 正しいほうのボタンを押して返事をしよう（合っている方だけ押せます）:
             </p>
           </div>
 
@@ -403,17 +410,17 @@ export const TwoDeviceIncomingQuestionModal: React.FC<TwoDeviceIncomingQuestionM
               )}
               <span className="text-base">Yes, I am!</span>
               {showJapanese && (
-                <span className="text-[11px] font-normal text-emerald-800">
+                <span className="text-xs font-bold text-emerald-800">
                   正解です
                 </span>
               )}
               {isActuallyCorrect ? (
-                <span className="text-[10px] text-emerald-700 font-bold bg-emerald-200/80 px-2 py-0.5 rounded-full mt-1">
-                  👉 Click this! (正解)
+                <span className="text-[11px] text-emerald-800 font-black bg-emerald-200/90 px-2 py-0.5 rounded-full mt-1">
+                  👉 これを押してね！
                 </span>
               ) : (
                 <span className="text-[10px] text-slate-400 font-normal mt-1">
-                  Locked
+                  正解ではないため押せません
                 </span>
               )}
             </button>
@@ -440,17 +447,17 @@ export const TwoDeviceIncomingQuestionModal: React.FC<TwoDeviceIncomingQuestionM
               )}
               <span className="text-base">No, I'm not!</span>
               {showJapanese && (
-                <span className="text-[11px] font-normal text-rose-800">
+                <span className="text-xs font-bold text-rose-800">
                   ちがいます
                 </span>
               )}
               {!isActuallyCorrect ? (
-                <span className="text-[10px] text-rose-700 font-bold bg-rose-200/80 px-2 py-0.5 rounded-full mt-1">
-                  👉 Click this! (正解)
+                <span className="text-[11px] text-rose-800 font-black bg-rose-200/90 px-2 py-0.5 rounded-full mt-1">
+                  👉 これを押してね！
                 </span>
               ) : (
                 <span className="text-[10px] text-slate-400 font-normal mt-1">
-                  Locked
+                  ちがうわけではないため押せません
                 </span>
               )}
             </button>

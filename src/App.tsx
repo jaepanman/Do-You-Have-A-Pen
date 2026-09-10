@@ -452,23 +452,27 @@ export default function App() {
 
             <div>
               <h2 className="text-2xl sm:text-3xl font-black text-slate-900 font-['Fredoka',sans-serif]">
-                Room Ready! Share Code
+                {showJapanese ? 'へやができたよ！' : 'Room Ready! Share Code'}
               </h2>
-              <p className="text-xs sm:text-sm font-bold text-amber-700 mt-1">
+              <p className="text-sm font-extrabold text-amber-800 mt-1">
                 {showJapanese
-                  ? '友達に合言葉を教えてゲームに参加してもらおう！'
+                  ? 'となりの友だちに「あいことば」をおしえてあげてね！'
                   : 'Tell your friend the code or share the link to join!'}
               </p>
             </div>
 
             {/* Room Code Display */}
-            <div className="bg-amber-50 rounded-2xl p-4 border-2 border-amber-300">
-              <div className="text-xs font-bold text-amber-800 uppercase tracking-widest mb-1">
-                Room Code (部屋の合言葉):
+            <div className="bg-amber-100/70 rounded-3xl p-5 border-3 border-amber-400 shadow-inner">
+              <div className="text-xs font-black text-amber-900 uppercase tracking-widest mb-1.5 flex items-center justify-center gap-1.5">
+                <span>🔑</span>
+                <span>友だちに教える合言葉 (Room Code):</span>
               </div>
-              <div className="text-4xl sm:text-5xl font-black text-slate-900 tracking-widest font-mono">
+              <div className="text-5xl sm:text-6xl font-black text-slate-900 tracking-widest font-mono select-all bg-white py-2 px-4 rounded-2xl border-2 border-amber-300 inline-block shadow-sm">
                 {twoDeviceRoom.roomId}
               </div>
+              <p className="text-xs font-bold text-amber-950 mt-2">
+                友だちの画面で<strong>「② へやにはいる」</strong>を押して、この<strong>{twoDeviceRoom.roomId}</strong>を入れてもらおう！
+              </p>
             </div>
 
             {/* Copy link and actions */}
@@ -481,12 +485,12 @@ export default function App() {
                 {twoDeviceCopied ? (
                   <>
                     <Check className="w-4 h-4 text-emerald-800 stroke-[3]" />
-                    <span>Link Copied! (コピー完了)</span>
+                    <span>リンクをコピーしたよ！ (Copied!)</span>
                   </>
                 ) : (
                   <>
                     <Copy className="w-4 h-4" />
-                    <span>Copy Game Link (URLをコピー)</span>
+                    <span>ゲームのURLをコピー (Copy Link)</span>
                   </>
                 )}
               </button>
@@ -497,14 +501,16 @@ export default function App() {
                 className="w-full sm:w-auto px-4 py-2.5 rounded-xl font-bold text-sm text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 <LogOut className="w-4 h-4" />
-                <span>Cancel / Leave</span>
+                <span>もどる (Cancel)</span>
               </button>
             </div>
 
-            <div className="p-3 bg-slate-50 rounded-2xl border border-slate-200 flex items-center justify-center gap-3 text-xs text-slate-600 font-bold">
-              <Loader2 className="w-4 h-4 animate-spin text-amber-600" />
+            <div className="p-3.5 bg-slate-50 rounded-2xl border-2 border-slate-200 flex items-center justify-center gap-3 text-xs text-slate-700 font-bold">
+              <Loader2 className="w-5 h-5 animate-spin text-amber-600 shrink-0" />
               <span>
-                Waiting for Player 2 to enter code... (対戦相手の参加を待っています)
+                {showJapanese
+                  ? '友だちが入ってくるのを待っています…（入ったら自動でスタート！）'
+                  : 'Waiting for Player 2 to enter code...'}
               </span>
             </div>
           </div>
@@ -644,17 +650,23 @@ export default function App() {
 
                 <div className="text-lg font-black font-['Fredoka',sans-serif]">
                   {twoDeviceIsMyTurn ? (
-                    <span>Choose a supply below to ask!</span>
+                    <span className="text-emerald-950">
+                      {showJapanese ? '🌟 あなたの番です！' : 'Your Turn to Ask!'}
+                    </span>
                   ) : (
-                    <span>Waiting for {twoDeviceOpponentPlayer?.name}...</span>
+                    <span className="text-indigo-950">
+                      {showJapanese
+                        ? `⏳ ${twoDeviceOpponentPlayer?.name || '相手'} さんの番`
+                        : `Waiting for ${twoDeviceOpponentPlayer?.name}...`}
+                    </span>
                   )}
                 </div>
 
                 {showJapanese && (
-                  <p className="text-xs mt-1 font-semibold opacity-85">
+                  <p className="text-xs mt-1 font-bold">
                     {twoDeviceIsMyTurn
-                      ? 'あなたの番です！下の持ち物を選んで相手にしつもんしましょう。'
-                      : `${twoDeviceOpponentPlayer?.name} が質問を選ぶのを待っています。`}
+                      ? '下の「もちもの」を1つ選んで、友だちに「Do you have a ...?」と英語で質問しよう！'
+                      : `${twoDeviceOpponentPlayer?.name || 'あいて'} さんが質問を選んでいます。しつもんが画面に出たら答えてね！`}
                   </p>
                 )}
               </div>
