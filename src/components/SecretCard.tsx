@@ -22,6 +22,17 @@ export const SecretCard: React.FC<SecretCardProps> = ({
 }) => {
   const [isRevealed, setIsRevealed] = useState(true);
 
+  const cardTitle = (() => {
+    const trimmed = (playerName || '').trim();
+    if (!trimmed || trimmed.toLowerCase() === 'you' || trimmed.toLowerCase() === 'your' || trimmed.toLowerCase() === "your's") {
+      return 'Your Secret Card';
+    }
+    if (trimmed.endsWith("'s") || trimmed.endsWith("’s")) {
+      return `${trimmed} Secret Card`;
+    }
+    return `${trimmed}'s Secret Card`;
+  })();
+
   return (
     <div
       id="secret-identity-card"
@@ -31,7 +42,7 @@ export const SecretCard: React.FC<SecretCardProps> = ({
         <div className="flex items-center gap-1.5 text-xs font-bold text-amber-800">
           <ShieldCheck className="w-4 h-4 text-amber-600" />
           <span className="font-['Fredoka',sans-serif] uppercase tracking-wide">
-            {playerName}'s Secret Card
+            {cardTitle}
           </span>
         </div>
 

@@ -609,7 +609,7 @@ export default function App() {
                 secretAnimal={currentSecretAnimal}
                 playerName={
                   gameMode === 'vs_computer'
-                    ? 'Your'
+                    ? 'You'
                     : isP1Turn
                     ? 'Player 1'
                     : 'Player 2'
@@ -682,7 +682,7 @@ export default function App() {
             <div className="md:col-span-2">
               <SecretCard
                 secretAnimal={currentSecretAnimal}
-                playerName={twoDeviceMyPlayer?.name || 'Your'}
+                playerName={twoDeviceMyPlayer?.name || 'You'}
                 showJapanese={showJapanese}
                 onReroll={handleRerollSecret}
                 canReroll={false}
